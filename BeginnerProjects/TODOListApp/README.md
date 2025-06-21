@@ -32,6 +32,7 @@ A simple and interactive TODO List application to help you manage your tasks eff
 1. Add a task by typing in the input field and clicking the "Add" button.
 2. Mark tasks as completed by clicking the checkbox.
 3. Edit or delete tasks using the respective buttons.
+4. Your tasks will remain saved between sessions.
 
 ## Contributing
 
