@@ -7,6 +7,7 @@
 body {
     background-color: beige;
     font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
     display: flex;
     justify-content: center;
     padding-top: 60px;
@@ -54,6 +55,8 @@ ul {
     list-style: none;
 }
 
+
+  
 li:hover {
     background-color: #f9f9f9;
     cursor: pointer;

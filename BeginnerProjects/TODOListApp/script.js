@@ -16,6 +16,8 @@
 
         let tasks = [];
         const form = document.getElementById('todo-form');
+       
+        
         //wait for the DOM to load before accessing elements
         
         // Retrieve tasks from localStorage on page load
@@ -24,10 +26,23 @@
         //render the restored list
         document.addEventListener('DOMContentLoaded', function() {
             const storedTasks = localStorage.getItem('tasks');
-            if (storedTasks) {
-                tasks = JSON.parse(storedTasks);
-                displayTasks();
-            }
+            console.log('Stored tasks:', storedTasks);
+            //!storedTasks handles the case where there are no tasks in localStorage 
+            // i.e. localStorage.getItem('tasks') === null(happens when the user first visits the app)
+           
+            //JSON.parse(storedTasks).length === 0 handles the case when an empty array [] is stored (happens when
+            //there is something saved, but it is an empty array[]. Example: user added and then deleted all tasks.)
+            
+            if (!storedTasks || JSON.parse(storedTasks).length === 0) {
+                const todoList = document.getElementById('todo-list');
+                todoList.innerHTML = '<li>No tasks available. Please add a task.</li>';
+                return;
+            } 
+            // If tasks exist, parse them and display
+            tasks = JSON.parse(storedTasks);
+            console.log('Parsed tasks:', tasks);
+            displayTasks();
+            
         });
         // Function to display tasks in the UI
         form.addEventListener('submit', function(e) {
@@ -63,16 +78,34 @@
              // Clear the existing list
              todoList.innerHTML = ''; 
              tasks.forEach((task, index) => {
-                const li = document.createElement('li');
+                /*const li = document.createElement('li');
                 li.textContent = task.text;
                 console.log(`Task: ${task.text}, Completed: ${task.completed}`);
-                // Set the class based on completion status
+               
                 li.className = task.completed ? 'completed' : '';
                 li.addEventListener('click', function() {
                     toggleComplete(index);
                 });
-                todoList.appendChild(li);
+                todoList.appendChild(li);*/
 
+                //create checkbox 
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.checked = task.completed;
+                checkbox.addEventListener('click', function() {
+                    toggleComplete(index);
+                });
+
+                //create textnode
+                const textNode = document.createTextNode(task.text);
+
+                //build list item
+                const li = document.createElement('li');
+                li.appendChild(checkbox); //append checkbox to the li
+                li.appendChild(textNode); //append text to the li
+                li.className = task.completed ? 'completed' : ''; //apply class based on completion statu
+
+               
                 // Create and append the delete button
                 const deleteButton = document.createElement('button');
                 deleteButton.textContent = 'Delete';
